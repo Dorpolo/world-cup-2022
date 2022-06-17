@@ -13,21 +13,24 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Build main image
+          name: Build image
           command: |
             HEROKU_APP_NAME=world-cup-22
             HEROKU_DST=registry.heroku.com/${HEROKU_APP_NAME}/web
-
             curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
             docker login --username=_ --password=$HEROKU_TOKEN registry.heroku.com
             docker build -f Dockerfile \
               -t $HEROKU_DST .
-
             echo "image built successfully"
+      - run:
+          name: Image push to heroku
+          command: |
             docker push $HEROKU_DST
             echo docker pushed successfully into $HEROKU_DST
-
+      - run:
+          name: Heroku release
+          command: |
             HEROKU_API_KEY=${HEROKU_TOKEN}
             sudo sh release.sh $HEROKU_API_KEY
 workflows:
