@@ -19,6 +19,8 @@ jobs:
             echo $(pwd)
             echo $(ls)
             cd ..
+            echo $(ls home)
+            echo $(pwd)
             echo $(ls)
             echo $(pwd)
             cd ..
