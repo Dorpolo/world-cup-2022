@@ -9,8 +9,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBUG 1
 
-RUN apk install git
-RUN apk install pip
+RUN apk add --update git
+RUN apk add --update pip
 
 # install psycopg2
 RUN apk update \
