@@ -15,7 +15,8 @@ jobs:
       - run:
           name: Build main image
           command: |
-            HEROKU_DST=registry.heroku.com/world-cup-22/web
+            HEROKU_APP_NAME=world-cup-22
+            HEROKU_DST=registry.heroku.com/${HEROKU_APP_NAME}/web
 
             curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
@@ -27,18 +28,8 @@ jobs:
             docker push $HEROKU_DST
             echo docker pushed successfully into $HEROKU_DST
 
-            export HEROKU_API_KEY=${HEROKU_TOKEN}
-            heroku container:release -a world-cup-2 web
-
-
-
-
-            heroku login -i
-            heroku container:release -a world-cup-22 web
-
-
-
-
+            HEROKU_API_KEY=${HEROKU_TOKEN}
+            sh .release.sh $HEROKU_APP_NAME $HEROKU_API_KEY
 workflows:
   version: 2
   build-and-deploy:
