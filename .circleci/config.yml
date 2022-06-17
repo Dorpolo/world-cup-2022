@@ -13,7 +13,7 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Build image
+          name: Image Build & Push
           command: |
             HEROKU_APP_NAME=world-cup-22
             HEROKU_DST=registry.heroku.com/${HEROKU_APP_NAME}/web
@@ -23,9 +23,6 @@ jobs:
             docker build -f Dockerfile \
               -t $HEROKU_DST .
             echo "image built successfully"
-      - run:
-          name: Image push to heroku
-          command: |
             docker push $HEROKU_DST
             echo docker pushed successfully into $HEROKU_DST
       - run:
