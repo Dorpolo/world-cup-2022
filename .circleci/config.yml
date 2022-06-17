@@ -17,7 +17,7 @@ jobs:
           command: |
             HEROKU_DST=registry.heroku.com/world-cup-22/web
 
-            docker login --username=_ --password=$(HEROKU_TOKEN) registry.heroku.com
+            docker login --username=_ --password=$HEROKU_TOKEN registry.heroku.com
             docker build -f Dockerfile \
               -t $HEROKU_DST .
             echo "image built successfully"
