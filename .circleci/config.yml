@@ -1,5 +1,4 @@
-version: 2.1
-
+version: 2.0
 jobs:
   build:
     docker:
@@ -8,6 +7,7 @@ jobs:
           username: dorpolo
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
+      - checkout
       - attach_workspace:
           at: .
       - setup_remote_docker:
@@ -33,7 +33,8 @@ jobs:
 #            echo "image built successfully"
 
 workflows:
-  sample:
+  version: 2
+  build-and-deploy:
     jobs:
       - build:
           context: world-cup-2022
