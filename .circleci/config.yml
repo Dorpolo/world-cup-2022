@@ -9,6 +9,8 @@ jobs:
           username: dorpolo
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
+      - attach_workspace:
+          at: .
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
