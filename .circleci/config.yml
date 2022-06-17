@@ -15,22 +15,8 @@ jobs:
       - run:
           name: Build main image
           command: |
-            echo "working in Progress ..."
-            echo $(pwd)
-            echo $(ls)
-            cd ..
-            echo $(ls home)
-            echo $(pwd)
-            echo $(ls)
-            echo $(pwd)
-            cd ..
-            echo $(ls)
-            echo $(pwd)
-            cd ..
-            echo $(ls)
-            echo $(pwd)
-#            docker build -t polo .
-#            echo "image built successfully"
+            docker build -t polo .
+            echo "image built successfully"
 
 workflows:
   version: 2
