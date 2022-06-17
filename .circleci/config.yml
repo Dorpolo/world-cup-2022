@@ -18,7 +18,9 @@ jobs:
           command: |
             echo "working in Progress ..."
             echo $(pwd)
-            echo $(ls)
+            echo $(ls ..)
+            cd ..
+            echo $(pwd)
 #            docker build -t polo .
 #            echo "image built successfully"
 
