@@ -22,6 +22,7 @@ jobs:
             docker login --username=_ --password=$HEROKU_TOKEN registry.heroku.com
             docker build -f Dockerfile \
               -t $HEROKU_DST .
+
             echo "image built successfully"
             docker push $HEROKU_DST
             echo docker pushed successfully into $HEROKU_DST
