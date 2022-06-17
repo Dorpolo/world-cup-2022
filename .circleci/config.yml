@@ -15,7 +15,9 @@ jobs:
       - run:
           name: Build main image
           command: |
-            docker build -t polo .
+            docker login --username dorpolo --password ${DOCKERHUB_PASSWORD}
+            docker build -f Dockerfile \
+              -t polo .
             echo "image built successfully"
 
 workflows:
