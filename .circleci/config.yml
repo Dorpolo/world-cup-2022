@@ -25,6 +25,6 @@ jobs:
 workflows:
   sample:
     jobs:
-      - build-and-test:
+      - build:
           context: world-cup-2022
 
