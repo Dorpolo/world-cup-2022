@@ -17,6 +17,7 @@ jobs:
           name: Build main image
           command: |
             echo "working in Progress ..."
+            echo $(pwd)
             echo $(ls)
 #            docker build -t polo .
 #            echo "image built successfully"
