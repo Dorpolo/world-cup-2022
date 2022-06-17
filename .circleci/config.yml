@@ -18,6 +18,8 @@ jobs:
             docker build -f Dockerfile \
               -t polo .
             echo "image built successfully"
+            docker push registry.heroku.com/world-cup-22/web
+            echo "docker pushed successfully into registry.heroku.com/world-cup-22/web"
 
 workflows:
   version: 2
