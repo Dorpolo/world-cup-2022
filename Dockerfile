@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED 1
 ENV DEBUG 1
 
 RUN apk add --update git
-RUN apk add --update pip
+RUN apk add --update py-pip
 
 # install psycopg2
 RUN apk update \
