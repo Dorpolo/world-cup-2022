@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   build:
     docker:
-      - image: alpine
+      - image: cimg/go:1.17
         auth:
           username: dorpolo
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
