@@ -17,9 +17,9 @@ jobs:
           command: |
             HEROKU_DST=registry.heroku.com/world-cup-22/web
             docker build -f Dockerfile \
-              -t polo .
+              -t $HEROKU_DST .
             echo "image built successfully"
-            docker push $HEROKU_DST:latest
+            docker push $HEROKU_DST
             echo "docker pushed successfully into registry.heroku.com/world-cup-22/web"
 
 workflows:
