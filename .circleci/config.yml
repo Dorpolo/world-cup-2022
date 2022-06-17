@@ -8,16 +8,15 @@ jobs:
         auth:
           username: dorpolo
           password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-    working_directory: .
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
           name: Build main image
           command: |
-            echo "Working in Progress ..."
+            echo "working in Progress ..."
             docker build -t polo .
-            echo "Image built successfully"
+            echo "image built successfully"
 
 workflows:
   sample:
