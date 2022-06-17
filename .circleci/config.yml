@@ -19,7 +19,7 @@ jobs:
             echo "working in Progress ..."
             echo $(pwd)
             echo $(ls ..)
-            cd ../..
+            cd ../../..
             echo $(pwd)
             echo $(ls)
 #            docker build -t polo .
