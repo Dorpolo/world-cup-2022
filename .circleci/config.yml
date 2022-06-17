@@ -11,7 +11,7 @@ jobs:
     working_directory: .
     steps:
       - attach_workspace:
-          - at: .
+          at: .
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
