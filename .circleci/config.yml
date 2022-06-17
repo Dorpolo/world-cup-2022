@@ -15,10 +15,11 @@ jobs:
       - run:
           name: Build main image
           command: |
+            HEROKU_DST=registry.heroku.com/world-cup-22/web
             docker build -f Dockerfile \
               -t polo .
             echo "image built successfully"
-            docker push registry.heroku.com/world-cup-22/web
+            docker push $HEROKU_DST:latest
             echo "docker pushed successfully into registry.heroku.com/world-cup-22/web"
 
 workflows:
