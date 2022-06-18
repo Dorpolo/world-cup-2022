@@ -37,7 +37,6 @@ jobs:
       - run:
           name: Login into Heroku Docker Repository
           command: |
-#           curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
             docker login --username=dorpolo --password=$HEROKU_TOKEN registry.heroku.com
       - run:
           name: Deploy Heroku Docker Container
