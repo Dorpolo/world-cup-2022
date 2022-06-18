@@ -19,7 +19,6 @@ jobs:
             HEROKU_DST=registry.heroku.com/${HEROKU_APP_NAME}/web
             curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
-            docker login --username=_ --password=$HEROKU_TOKEN registry.heroku.com --password-stdin
             docker build -f Dockerfile \
               -t $HEROKU_DST . \
               --build-arg PG_PASS=$PG_PASS
