@@ -17,7 +17,7 @@ jobs:
           command: |
             HEROKU_APP_NAME=world-cup-22
             HEROKU_DST=registry.heroku.com/${HEROKU_APP_NAME}/web
-#            curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
             docker build -f Dockerfile \
               -t $HEROKU_DST . \
               --build-arg PG_PASS=$PG_PASS
@@ -37,6 +37,7 @@ jobs:
       - run:
           name: Login into Heroku Docker Repository
           command: |
+#           curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
             docker login --username=dorpolo --password=$HEROKU_TOKEN registry.heroku.com
       - run:
           name: Deploy Heroku Docker Container
