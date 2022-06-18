@@ -13,5 +13,4 @@ machine git.heroku.com
   password $HEROKU_TOKEN
 EOF
 chmod 600 ~/.netrc
-cat ~/.netrc
 echo ~/.netrc updated successfully
