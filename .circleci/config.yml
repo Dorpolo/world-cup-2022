@@ -1,5 +1,32 @@
 version: 2.0
 jobs:
+  install:
+    description: |
+      Download and install the Heroku CLI. Will be skipped if the CLI is already installed in the system.
+    steps:
+
+  check-authentication:
+    description: |
+      Verifies the Heroku API key has been added so we can authenticate.
+    parameters:
+      print-whoami:
+        default: false
+        description: Print the result of heroku auth:whoami.
+        type: boolean
+    steps:
+      - run:
+          command: |
+            if [[ $HEROKU_API_KEY == "" ]]; then
+              echo "No Heroku API key set, please set the HEROKU_API_KEY environment variable."
+              echo "This can be found by running the `heroku auth:token` command locally."
+              exit 1
+            else
+              echo "Heroku API key found."
+            <<#parameters.print-whoami>>
+              heroku auth:whoami
+            <</parameters.print-whoami>>
+            fi
+          name: Verify HEROKU_API_KEY is set
   build:
     docker:
       - image: cimg/go:1.17
@@ -13,7 +40,7 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Image Build & Push
+          name: Image build
           command: |
             HEROKU_APP_NAME=world-cup-22
             HEROKU_DST=registry.heroku.com/${HEROKU_APP_NAME}/web
@@ -22,18 +49,14 @@ jobs:
               -t $HEROKU_DST . \
               --build-arg PG_PASS=$PG_PASS
             echo "image built successfully"
-#            docker push $HEROKU_DST
-#            echo docker pushed successfully into $HEROKU_DST
-#      - run:
-#          name: Heroku release
-#          command: |
-#            HEROKU_API_KEY=${HEROKU_TOKEN}
-#            sudo sh release.sh $HEROKU_API_KEY
       - run:
-          name: Setup Heroku
+          name: Install Heroku CLI (If not installed)
           command: |
-            chmod +x setup-heroku.sh
-            sh setup-heroku.sh $HEROKU_TOKEN
+            if [[ $(command -v heroku) == "" ]]; then
+              curl https://cli-assets.heroku.com/install.sh | sh
+            else
+              echo "Heroku is already installed. No operation was performed."
+            fi
       - run:
           name: Login into Heroku Docker Repository
           command: |
@@ -43,6 +66,7 @@ jobs:
           command: |
             heroku container:push web -a world-cup-22
             heroku container:release -a world-cup-22 web
+
 workflows:
   version: 2
   build-and-deploy:
