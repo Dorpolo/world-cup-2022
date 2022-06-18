@@ -42,6 +42,7 @@ jobs:
       - run:
           name: Deploy Heroku Docker Container
           command: |
+            heroku container:login
             heroku container:push web -a world-cup-22
             heroku container:release -a world-cup-22 web
 
