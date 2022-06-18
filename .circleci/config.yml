@@ -1,10 +1,5 @@
 version: 2.0
 jobs:
-  install:
-    description: |
-      Download and install the Heroku CLI. Will be skipped if the CLI is already installed in the system.
-    steps:
-
   check-authentication:
     description: |
       Verifies the Heroku API key has been added so we can authenticate.
@@ -15,8 +10,9 @@ jobs:
         type: boolean
     steps:
       - run:
+          name: Verify HEROKU_TOKEN is set
           command: |
-            if [[ $HEROKU_API_KEY == "" ]]; then
+            if [[ $HEROKU_TOKEN == "" ]]; then
               echo "No Heroku API key set, please set the HEROKU_API_KEY environment variable."
               echo "This can be found by running the `heroku auth:token` command locally."
               exit 1
@@ -26,7 +22,7 @@ jobs:
               heroku auth:whoami
             <</parameters.print-whoami>>
             fi
-          name: Verify HEROKU_API_KEY is set
+
   build:
     docker:
       - image: cimg/go:1.17
