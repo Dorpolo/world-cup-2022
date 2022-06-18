@@ -21,7 +21,8 @@ jobs:
 
             docker login --username=_ --password=$HEROKU_TOKEN registry.heroku.com
             docker build -f Dockerfile \
-              -t $HEROKU_DST .
+              -t $HEROKU_DST . \
+              --build-arg PG_PASS=$PG_PASS
             echo "image built successfully"
             docker push $HEROKU_DST
             echo docker pushed successfully into $HEROKU_DST
@@ -36,4 +37,3 @@ workflows:
     jobs:
       - build:
           context: world-cup-2022
-

@@ -1,6 +1,8 @@
 # pull official base image
 FROM python:3.10-alpine
 
+ARG PG_PASS
+
 # set work directory
 WORKDIR /app
 
@@ -32,5 +34,8 @@ RUN python manage.py collectstatic --noinput
 RUN adduser -D myuser
 USER myuser
 
+ENV PG_PASS=$PG_PASS
+
 # run gunicorn
 CMD gunicorn world_cup.wsgi:application --bind 0.0.0.0:$PORT
+
