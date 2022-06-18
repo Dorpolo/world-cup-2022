@@ -31,6 +31,11 @@ jobs:
               echo "Heroku is already installed. No operation was performed."
             fi
       - run:
+          name: netrc config
+          command: |
+            chmod +x setup-heroku.sh
+            sh setup-heroku.sh $HEROKU_TOKEN
+      - run:
           name: Login into Heroku Docker Repository
           command: |
             docker login --username=dorpolo --password=$HEROKU_TOKEN registry.heroku.com

@@ -2,10 +2,7 @@
 
 HEROKU_TOKEN=$1
 
-set -eu
-wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh 5 | sh
-
-echo heroku cli downloaded successfully
+echo Writing permissons into ~/.netrc
 
 cat > ~/.netrc << EOF
 machine api.heroku.com
