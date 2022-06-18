@@ -19,18 +19,27 @@ jobs:
             HEROKU_DST=registry.heroku.com/${HEROKU_APP_NAME}/web
             curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
-            docker login --username=_ --password=$HEROKU_TOKEN registry.heroku.com
+            docker login --username=_ --password=$HEROKU_TOKEN registry.heroku.com --password-stdin
             docker build -f Dockerfile \
               -t $HEROKU_DST . \
               --build-arg PG_PASS=$PG_PASS
             echo "image built successfully"
-            docker push $HEROKU_DST
-            echo docker pushed successfully into $HEROKU_DST
+#            docker push $HEROKU_DST
+#            echo docker pushed successfully into $HEROKU_DST
+#      - run:
+#          name: Heroku release
+#          command: |
+#            HEROKU_API_KEY=${HEROKU_TOKEN}
+#            sudo sh release.sh $HEROKU_API_KEY
       - run:
-          name: Heroku release
+          name: Login into Heroku Docker Repository
           command: |
-            HEROKU_API_KEY=${HEROKU_TOKEN}
-            sudo sh release.sh $HEROKU_API_KEY
+            docker login --username=_ --password=$HEROKU_TOKEN registry.heroku.com --password-stdin
+      - run:
+          name: Deploy Heroku Docker Container
+          command: |
+            heroku container:push web -a world-cup-22
+            heroku container:release -a world-cup-22 web
 workflows:
   version: 2
   build-and-deploy:

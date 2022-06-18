@@ -6,6 +6,8 @@ herokuAuthToken=$1
 imageId=$(docker inspect registry.heroku.com/world-cup-22/web --format={{.Id}})
 payload='{"updates":[{"type":"web","docker_image":"'"$imageId"'"}]}'
 
+echo $payload
+
 # .docker-releases
 curl -n -X PATCH https://api.heroku.com/apps/world-cup-22/formation \
      -d "$payload" \

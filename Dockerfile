@@ -38,4 +38,3 @@ ENV PG_PASS=$PG_PASS
 
 # run gunicorn
 CMD gunicorn world_cup.wsgi:application --bind 0.0.0.0:$PORT
-

@@ -84,6 +84,31 @@ DATABASES = {
     }
 }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        },
+    # 'default1': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'dktq534bum4hj',
+    #     'USER': 'wwpnsvztdmbvwd',
+    #     'PASSWORD': POSTGRES_PASS,
+    #     'HOST': 'ec2-52-22-216-69.compute-1.amazonaws.com',
+    #     'PORT': '5432',
+    #     },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd4vo35tubp9k25',
+        'USER': os.getenv('PG_PASS'),
+        'PASSWORD': '40816dda511a70c8645bb107cde6f4550b8fb35c123c9f95fa5f4f8efb24b3cb',
+        'HOST': 'ec2-52-72-56-59.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
+
+# 'azqietclvdwcro'
+
 # DATABASE_URL = os.environ.get('DATABASE_URL')
 # db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
 # DATABASES['default'].update(db_from_env)
