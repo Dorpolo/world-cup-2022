@@ -48,9 +48,9 @@ class GroupStagePrediction(BasePrediction):
 group_stage_data: List[Dict[str, Any]] = results.get_stage_matches(StageType.GROUP)
 for record in group_stage_data:
     winner_choices: Tuple[Tuple[str, str]] = get_winner_choice(record['home'], record['away'], True)
-    GroupStagePrediction.add_to_class(f"{record['match_id']}_h", models.IntegerField())
-    GroupStagePrediction.add_to_class(f"{record['match_id']}_a", models.IntegerField())
-    GroupStagePrediction.add_to_class(f"{record['match_id']}_w", models.CharField(choices=winner_choices, max_length=50))
+    GroupStagePrediction.add_to_class(f"{record['match_id']}_h", models.IntegerField(record['home']))
+    GroupStagePrediction.add_to_class(f"{record['match_id']}_a", models.IntegerField(record['away']))
+    GroupStagePrediction.add_to_class(f"{record['match_id']}_w", models.CharField('Winner', choices=winner_choices, max_length=50))
 
 
 # 1/8 Final Model

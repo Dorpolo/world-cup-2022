@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<h1>Group Stage Prediction Form</h1>
+    <hr>
+    <p>Please fill out the form below to predict the group stage.</p>
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            {% if field.label != 'User' %}
+                {{ field.label }}
+                {{ field }}
+                {{ data.0.away_team_logo }}
+                <br>
+                <hr>
+            {% endif %}
+        {% endfor %}
+        <input type="submit">
+    </form>
+
+{% endblock content %}
