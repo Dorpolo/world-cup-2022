@@ -7,9 +7,17 @@ from common.configs import ENV
 from .forms import GroupStagePredictionForm
 
 
+def get_match_context():
+    data = ResultAPIClient(ENV).get_all_matches()
+    match_context = []
+    for v in data:
+        match_context.append([f"{v['match_id']}_h", f"{v['match_id']}_a", f"{v['match_id']}_w"])
+    return {'data': data, 'match_context': match_context}
+
+
 def group_stage_prediction(request) -> HttpResponse:
     context = {
-        'data': ResultAPIClient(ENV).get_all_matches(),
+        **get_match_context(),
         'form': GroupStagePredictionForm()
     }
     return render(
