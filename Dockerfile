@@ -12,14 +12,23 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV DEBUG 1
 
-RUN apk add --update git
-RUN apk add --update py-pip
+RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
+    PIP_INSTALL="pip install --upgrade" && \
+    $APT_INSTALL python3-dev && \
+    $APT_INSTALL gcc && \
+    $PIP_INSTALL pip && \
+    $PIP_INSTALL setuptools \
+    $PIP_INSTALL psycopg2
 
-# install psycopg2
-RUN apk update \
-    && apk add --virtual build-essential gcc python3-dev musl-dev \
-    && apk add postgresql-dev \
-    && pip install psycopg2
+
+#RUN apk add --update git
+#RUN apk add --update py-pip
+
+## install psycopg2
+#RUN apk update \
+#    && apk add --virtual build-essential gcc python3-dev musl-dev \
+#    && apk add postgresql-dev \
+#    && pip install psycopg2
 
 # install dependencies
 COPY ./requirements.txt .
