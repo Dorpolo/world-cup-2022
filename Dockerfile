@@ -1,9 +1,5 @@
 # pull official base image
-FROM python:master-3.8.10-slim
-
-RUN apk add --no-cache python3-dev libstdc++ && \
-    apk add --no-cache g++ && \
-    ln -s /usr/include/locale.h /usr/include/xlocale.h
+FROM python:3.8-slim-buster
 
 ARG POSTGRES_PASS
 ENV PG_PASS=$POSTGRES_PASS
