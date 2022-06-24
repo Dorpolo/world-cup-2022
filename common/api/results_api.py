@@ -9,7 +9,7 @@ from typing import List, Dict, Any, Union
 from pprint import pprint
 import pandas as pd
 
-from common.configs import ENV, API_KEY
+from common.configs import API_KEY
 
 os.environ['API_KEY'] = API_KEY
 
@@ -86,10 +86,10 @@ class ResultAPIClient:
         assert match_id in accepted_ids, "The provided match id is not exists"
         return [item for item in data if item['match_id'] == match_id][0]
 
-    def get_all_matches_df(self) -> pd.DataFrame:
-        df = pd.DataFrame(self.get_all_matches())
-        df['date'] = pd.to_datetime(df['match_date'])
-        return df
+    # def get_all_matches_df(self) -> pd.DataFrame:
+    #     df = pd.DataFrame(self.get_all_matches())
+    #     df['date'] = pd.to_datetime(df['match_date'])
+    #     return df
 
     @staticmethod
     def get_valid_record(record: Dict[str, Any]) -> MatchMetaData:
@@ -110,10 +110,10 @@ class ResultAPIClient:
             away_team_score=record['awayParticipant']['score'],
         )
 
-    def get_live_matches(self) -> Dict[str, Any]:
-        df: pd.DataFrame = self.get_all_matches_df()
-        live_df = df.loc[df.match_status == '0']
-        return live_df.to_dict('index')
+    # def get_live_matches(self) -> Dict[str, Any]:
+    #     df: pd.DataFrame = self.get_all_matches_df()
+    #     live_df = df.loc[df.match_status == '0']
+    #     return live_df.to_dict('index')
 
     def get_next_matches(self) -> List[str]:
         df: pd.DataFrame = self.get_all_matches_df()
