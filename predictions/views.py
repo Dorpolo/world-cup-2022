@@ -7,14 +7,14 @@ from common.api.teams_api import EnvType
 env: EnvType = EnvType.PROD
 
 
-def game_results(request) -> HttpResponse:
+def match_predictions(request) -> HttpResponse:
     results = ResultAPIClient(env)
     return render(
         request=request,
-        template_name='game_results/game_results.html',
+        template_name='predictions/predictions.html',
         context={'data': results.get_all_matches()}
     )
 
 
-def game_result(request, pk) -> HttpResponse:
-    return render(request, 'game_results/game_result.html')
+def single_match_prediction(request, pk) -> HttpResponse:
+    return render(request, 'predictions/single_match_prediction.html')
