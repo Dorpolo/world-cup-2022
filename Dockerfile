@@ -1,5 +1,8 @@
 # pull official base image
-FROM python:3.10-alpine
+FROM python:3.7.2-alpine3.9
+RUN apk add --no-cache python3-dev libstdc++ && \
+    apk add --no-cache g++ && \
+    ln -s /usr/include/locale.h /usr/include/xlocale.h
 
 ARG POSTGRES_PASS
 ENV PG_PASS=$POSTGRES_PASS

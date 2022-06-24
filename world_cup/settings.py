@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'predictions.apps.GameResultsConfig',
+    'league.apps.LeagueConfig',
+    'predictions.apps.PredictionsConfig',
 ]
 
 MIDDLEWARE = [

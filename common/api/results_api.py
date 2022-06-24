@@ -9,7 +9,9 @@ from typing import List, Dict, Any, Union
 from pprint import pprint
 import pandas as pd
 
-os.environ['API_KEY'] = "bfa132288504de6860c8ae3259d21fa7"
+from common.configs import ENV, API_KEY
+
+os.environ['API_KEY'] = API_KEY
 
 
 @dataclass
@@ -39,8 +41,11 @@ class EnvType(Enum):
 
 
 class StageType(Enum):
-    GROUP = 'group_stage'
-    KNOCKOUT = 'knockout'
+    GROUP = ('1st Round', '2nd Round', '3rd Round', )
+    KNOCKOUT_16 = ('1/8 Final', )
+    KNOCKOUT_8 = ('1/4 Final', )
+    KNOCKOUT_4 = ('1/2 Final', )
+    KNOCKOUT_2 = ('Final', )
 
 
 class ResultAPIClient:
@@ -56,16 +61,23 @@ class ResultAPIClient:
     def format_request(url) -> Union[Dict[str, Any], None]:
         return requests.get(url=url).json()
 
-    def get_matches_metadata(self) -> List[Dict[str, Any]]:
+    def get_matches_metadata(self) -> Dict[str, Dict[str, Any]]:
         url = f'{self.api_prefix}/matches/?season_id={self.season}&apikey={self.api_key}'
         data = self.format_request(url)
-        return [item['matches'] for item in data['calendar'].get('matchdays')]
+        record = {
+            item['matchdayName']: item['matches'] for item in data['calendar'].get('matchdays')
+        }
+        return record
 
     def get_all_matches(self) -> List[Dict[str, str]]:
-        data: List[Dict[str, Any]] = self.get_matches_metadata()
+        data: Dict[str, Dict[str, Any]] = self.get_matches_metadata()
         res = []
-        for round in data:
-            res += [{**self.get_valid_record(item).get_data(), 'index': i} for i, item in enumerate(round)]
+        for k, v in data.items():
+            res += [{
+                'index': i,
+                'stage': k,
+                **self.get_valid_record(item).get_data(),
+            } for i, item in enumerate(v)]
         return res
 
     def get_match(self, match_id: str) -> Dict[str, Any]:
@@ -111,30 +123,27 @@ class ResultAPIClient:
     def get_prev_matches(self, n: int = None) -> List[str]:
         pass
 
+    def get_stage_matches(self, stage_type: StageType) -> List[Dict[str, Any]]:
+        return [{
+            'stage': item['stage'],
+            'index': item['index'],
+            'match_id': item['match_id'],
+            'home': item['home_team_name'],
+            'away': item['away_team_name']
+        } for item in self.get_all_matches() if item['stage'] in stage_type.value]
 
-if __name__ == '__main__':
-    res = ResultAPIClient()
-    a = res.get_all_matches()
-    # pprint(res.get_matches_metadata())
+    def get_all_data(self) -> Dict[str, Any]:
+        url = f'{self.api_prefix}/matches/?season_id={self.season}&apikey={self.api_key}'
+        return self.format_request(url)
 
-    class API:
-        def __init__(
-                self,
-                env: EnvType = EnvType.PROD
-        ):
-            self.api_key = os.getenv('API_KEY')
-            self.season = env.value
-            self.api_prefix = 'https://api.statorium.com/api/v1'
 
-        @staticmethod
-        def format_request(url) -> Union[Dict[str, Any], None]:
-            return requests.get(url=url).json()
-
-        def get_matches_metadata(self) -> List[Dict[str, Any]]:
-            url = f'{self.api_prefix}/matches/?season_id={self.season}&apikey={self.api_key}'
-            data = self.format_request(url)
-            # return [item['matches'] for item in data['calendar'].get('matchdays')]
-            return data['calendar']['matchdays']
-
-    pprint(a)
-
+# if __name__ == '__main__':
+#     results = ResultAPIClient(ENV)
+#     data = results.get_all_matches()
+#
+#     from pprint import pprint
+#
+#     pprint(results.get_stage_matches(StageType.GROUP))
+#     pprint(data['calendar']['matchdays'])
+#     for item in data['calendar']['matchdays']:
+#         stage = item['stage']

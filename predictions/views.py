@@ -2,13 +2,11 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 from common.api.results_api import ResultAPIClient
-from common.api.teams_api import EnvType
-
-env: EnvType = EnvType.PROD
+from common.configs import ENV
 
 
-def match_predictions(request) -> HttpResponse:
-    results = ResultAPIClient(env)
+def predictions(request) -> HttpResponse:
+    results = ResultAPIClient(ENV)
     return render(
         request=request,
         template_name='predictions/predictions.html',
