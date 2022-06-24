@@ -7,7 +7,7 @@ from enum import Enum
 from typing import List, Dict, Any, Union
 
 from pprint import pprint
-import pandas as pd
+# import pandas as pd
 
 from common.configs import API_KEY
 
