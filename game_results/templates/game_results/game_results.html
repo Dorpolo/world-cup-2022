@@ -1,0 +1,16 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<h1>Multi Game Result</h1>
+    <hr>
+    {% for value in data %}
+        <li>To Single Result: <a href="{% url 'single_prediction' value.index %}">Hi All</a> </li>
+        <h4>{{ value.group_name }}</h4>
+        <h4>Match ID: {{ value.match_id }}. Match Date: {{ value.match_date }}</h4>
+        <h4>Match Time: {{ value.match_time }}. Match Status: {{ value.match_status }}</h4>
+
+        <h4>{{ value.home_team_name }} - {{ value.away_team_name }}</h4>
+        <h4>{{ value.home_team_score }} - {{ value.away_team_score }}</h4>
+        <hr>
+    {% endfor %}
+{% endblock content %}

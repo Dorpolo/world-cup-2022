@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='foo')
 # SECRET_KEY = 'django-insecure-lkkf40&u*57s1pgv*+u7u_8#a_jfx^6k*ib!%j3xb#t9(yj5pt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get('DEBUG', default=0))
+DEBUG = int(os.environ.get('DEBUG', default=1))
 # DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'world-cup-22.herokuapp.com']
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'game_results.apps.GameResultsConfig',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +60,9 @@ ROOT_URLCONF = 'world_cup.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -97,15 +101,17 @@ DATABASES = {
     #     'HOST': 'ec2-52-22-216-69.compute-1.amazonaws.com',
     #     'PORT': '5432',
     #     },
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd4vo35tubp9k25',
-        'USER': os.getenv('PG_PASS'),
-        'PASSWORD': '40816dda511a70c8645bb107cde6f4550b8fb35c123c9f95fa5f4f8efb24b3cb',
-        'HOST': 'ec2-52-72-56-59.compute-1.amazonaws.com',
-        'PORT': '5432',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'd4vo35tubp9k25',
+    #     'USER': os.getenv('PG_PASS'),
+    #     'PASSWORD': '40816dda511a70c8645bb107cde6f4550b8fb35c123c9f95fa5f4f8efb24b3cb',
+    #     'HOST': 'ec2-52-72-56-59.compute-1.amazonaws.com',
+    #     'PORT': '5432',
+    # }
 }
+
+# ec0cdf29-c463-479b-bf66-a60130884884
 
 # 'azqietclvdwcro'
 

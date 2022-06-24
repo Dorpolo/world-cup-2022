@@ -18,8 +18,6 @@ jobs:
             HEROKU_APP_NAME=world-cup-22
             HEROKU_DST=registry.heroku.com/${HEROKU_APP_NAME}/web
 
-            echo ${PG_PASS}
-
             docker build -f Dockerfile \
               -t $HEROKU_DST . \
               --build-arg POSTGRES_PASS=${PG_PASS}
@@ -33,14 +31,10 @@ jobs:
               echo "Heroku is already installed. No operation was performed."
             fi
       - run:
-          name: netrc config
+          name: Login Heroku using netrc config
           command: |
             chmod +x setup-heroku.sh
             sh setup-heroku.sh $HEROKU_TOKEN
-#      - run:
-#          name: Login into Heroku Docker Repository
-#          command: |
-#            docker login --username=dorpolo --password=$HEROKU_TOKEN registry.heroku.com
       - run:
           name: Deploy Heroku Docker Container
           command: |
