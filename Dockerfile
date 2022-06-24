@@ -14,7 +14,6 @@ ENV DEBUG 1
 
 RUN APT_INSTALL="apt-get install -y --no-install-recommends" && \
     PIP_INSTALL="pip install --upgrade" && \
-    $APT_INSTALL python3-dev && \
     $APT_INSTALL gcc && \
     $PIP_INSTALL pip && \
     $PIP_INSTALL setuptools \
