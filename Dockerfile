@@ -1,5 +1,6 @@
 # pull official base image
-FROM python:3.7.2-alpine3.9
+FROM python:master-3.8.10-slim
+
 RUN apk add --no-cache python3-dev libstdc++ && \
     apk add --no-cache g++ && \
     ln -s /usr/include/locale.h /usr/include/xlocale.h
