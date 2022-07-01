@@ -13,7 +13,7 @@ class League(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField('League Name', max_length=20, unique=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    logo = models.CharField('Logo', max_length=20, unique=True)
+    logo = models.ImageField('Logo', null=True, blank=True, default='default.png')
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     use_default_policy = models.BooleanField(default=True)

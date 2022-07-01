@@ -81,23 +81,23 @@ WSGI_APPLICATION = 'world_cup.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-# DATABASES2 = {
+# DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'd4vo35tubp9k25',
-#         'USER': os.getenv('PG_PASS'),
-#         'PASSWORD': '40816dda511a70c8645bb107cde6f4550b8fb35c123c9f95fa5f4f8efb24b3cb',
-#         'HOST': 'ec2-52-72-56-59.compute-1.amazonaws.com',
-#         'PORT': '5432',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd4vo35tubp9k25',
+        'USER': 'azqietclvdwcro',
+        'PASSWORD': '40816dda511a70c8645bb107cde6f4550b8fb35c123c9f95fa5f4f8efb24b3cb',
+        'HOST': 'ec2-52-72-56-59.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 # ec0cdf29-c463-479b-bf66-a60130884884
 
@@ -145,10 +145,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
