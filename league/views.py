@@ -8,7 +8,6 @@ from predictions.utils.predictions_api import PredictionAPIClient
 
 def league(request) -> HttpResponse:
     predictions = PredictionAPIClient(StageType.GROUP)
-    preds = predictions.get_stage_league_predictions()
     results = ResultAPIClient(ENV)
     return render(
         request=request,

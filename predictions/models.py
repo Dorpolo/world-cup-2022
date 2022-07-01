@@ -36,7 +36,7 @@ class ExtraPrediction(models.Model):
 
 
 class BasePrediction(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    id = models.AutoField(primary_key=True, editable=False, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
@@ -45,7 +45,7 @@ class GroupStagePrediction(BasePrediction):
     pass
 
 
-group_stage_data: List[Dict[str, Any]] = results.get_stage_matches(StageType.GROUP)
+group_stage_data: List[Dict[str, Any]] = results.fetch_stage_matches(StageType.GROUP)
 for record in group_stage_data:
     winner_choices: Tuple[Tuple[str, str]] = get_winner_choice(record['home'], record['away'], True)
     GroupStagePrediction.add_to_class(f"{record['match_id']}_h", models.IntegerField(record['home']))
@@ -58,12 +58,12 @@ class Top16Prediction(BasePrediction):
     pass
 
 
-top_16_data: List[Dict[str, Any]] = results.get_stage_matches(StageType.KNOCKOUT_16)
+top_16_data: List[Dict[str, Any]] = results.fetch_stage_matches(StageType.KNOCKOUT_16)
 for record in top_16_data:
     winner_choices: Tuple[Tuple[str, str]] = get_winner_choice(record['home'], record['away'])
-    Top16Prediction.add_to_class(f"{record['match_id']}_h", models.IntegerField())
-    Top16Prediction.add_to_class(f"{record['match_id']}_a", models.IntegerField())
-    Top16Prediction.add_to_class(f"{record['match_id']}_w", models.CharField(choices=winner_choices, max_length=50))
+    Top16Prediction.add_to_class(f"{record['match_id']}_h", models.IntegerField(record['home']))
+    Top16Prediction.add_to_class(f"{record['match_id']}_a", models.IntegerField(record['away']))
+    Top16Prediction.add_to_class(f"{record['match_id']}_w", models.CharField('Winner', choices=winner_choices, max_length=50))
 
 
 # 1/8 Final Model
@@ -71,12 +71,12 @@ class Top8Prediction(BasePrediction):
     pass
 
 
-top_8_data: List[Dict[str, Any]] = results.get_stage_matches(StageType.KNOCKOUT_8)
+top_8_data: List[Dict[str, Any]] = results.fetch_stage_matches(StageType.KNOCKOUT_8)
 for record in top_8_data:
     winner_choices: Tuple[Tuple[str, str]] = get_winner_choice(record['home'], record['away'])
-    Top8Prediction.add_to_class(f"{record['match_id']}_h", models.IntegerField())
-    Top8Prediction.add_to_class(f"{record['match_id']}_a", models.IntegerField())
-    Top8Prediction.add_to_class(f"{record['match_id']}_w", models.CharField(choices=winner_choices, max_length=50))
+    Top8Prediction.add_to_class(f"{record['match_id']}_h", models.IntegerField(record['home']))
+    Top8Prediction.add_to_class(f"{record['match_id']}_a", models.IntegerField(record['away']))
+    Top8Prediction.add_to_class(f"{record['match_id']}_w", models.CharField('Winner', choices=winner_choices, max_length=50))
 
 
 # 1/2 Final Model
@@ -84,12 +84,12 @@ class Top4Prediction(BasePrediction):
     pass
 
 
-top_4_data: List[Dict[str, Any]] = results.get_stage_matches(StageType.KNOCKOUT_4)
+top_4_data: List[Dict[str, Any]] = results.fetch_stage_matches(StageType.KNOCKOUT_4)
 for record in top_4_data:
     winner_choices: Tuple[Tuple[str, str]] = get_winner_choice(record['home'], record['away'])
-    Top4Prediction.add_to_class(f"{record['match_id']}_h", models.IntegerField())
-    Top4Prediction.add_to_class(f"{record['match_id']}_a", models.IntegerField())
-    Top4Prediction.add_to_class(f"{record['match_id']}_w", models.CharField(choices=winner_choices, max_length=50))
+    Top4Prediction.add_to_class(f"{record['match_id']}_h", models.IntegerField(record['home']))
+    Top4Prediction.add_to_class(f"{record['match_id']}_a", models.IntegerField(record['away']))
+    Top4Prediction.add_to_class(f"{record['match_id']}_w", models.CharField('Winner', choices=winner_choices, max_length=50))
 
 
 # Final Model
@@ -97,9 +97,9 @@ class Top2Prediction(BasePrediction):
     pass
 
 
-top_2_data: List[Dict[str, Any]] = results.get_stage_matches(StageType.KNOCKOUT_2)
+top_2_data: List[Dict[str, Any]] = results.fetch_stage_matches(StageType.KNOCKOUT_2)
 for record in top_2_data:
     winner_choices: Tuple[Tuple[str, str]] = get_winner_choice(record['home'], record['away'])
-    Top2Prediction.add_to_class(f"{record['match_id']}_h", models.IntegerField())
-    Top2Prediction.add_to_class(f"{record['match_id']}_a", models.IntegerField())
-    Top2Prediction.add_to_class(f"{record['match_id']}_w", models.CharField(choices=winner_choices, max_length=50))
+    Top2Prediction.add_to_class(f"{record['match_id']}_h", models.IntegerField(record['home']))
+    Top2Prediction.add_to_class(f"{record['match_id']}_a", models.IntegerField(record['away']))
+    Top2Prediction.add_to_class(f"{record['match_id']}_w", models.CharField('Winner', choices=winner_choices, max_length=50))

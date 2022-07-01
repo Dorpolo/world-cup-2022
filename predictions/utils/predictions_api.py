@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 from typing import List, Dict, Any, Union
-from common.api.results_api import StageType, ResultAPIClient
+from common.api.results_api import ResultAPIClient, StageType
 
 from predictions.models import ExtraPrediction, GroupStagePrediction, Top16Prediction, Top8Prediction,\
     Top4Prediction, Top2Prediction

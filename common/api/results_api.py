@@ -9,9 +9,22 @@ from typing import List, Dict, Any, Union
 from pprint import pprint
 # import pandas as pd
 
-from common.configs import API_KEY
+from common.configs import API_KEY, ENV, EnvType
+
 
 os.environ['API_KEY'] = API_KEY
+
+
+class StageType(Enum):
+    GROUP = ('1st Round', '2nd Round', '3rd Round', ), 1
+    KNOCKOUT_16 = ('1/8 Final', ), 2
+    KNOCKOUT_8 = ('1/4 Final', ), 3
+    KNOCKOUT_4 = ('1/2 Final', ), 4
+    KNOCKOUT_2 = ('Final', ), 5
+
+    def __init__(self, round_names, stage_id):
+        self.round_names = round_names
+        self.stage_id = stage_id
 
 
 @dataclass
@@ -30,22 +43,10 @@ class MatchMetaData:
     away_team_name: str
     away_team_logo: str
     away_team_score: str
+    form_fields: List[str] = None
 
     def get_data(self):
         return self.__dict__
-
-
-class EnvType(Enum):
-    PROD = '121'
-    STG = '40'
-
-
-class StageType(Enum):
-    GROUP = ('1st Round', '2nd Round', '3rd Round', )
-    KNOCKOUT_16 = ('1/8 Final', )
-    KNOCKOUT_8 = ('1/4 Final', )
-    KNOCKOUT_4 = ('1/2 Final', )
-    KNOCKOUT_2 = ('Final', )
 
 
 class ResultAPIClient:
@@ -80,6 +81,10 @@ class ResultAPIClient:
             } for i, item in enumerate(v)]
         return res
 
+    def get_stage_matches(self, stage_type: StageType) -> List[Dict[str, str]]:
+        data = self.get_all_matches()
+        return [item for item in data if item['stage'] in stage_type.round_names]
+
     def get_match(self, match_id: str) -> Dict[str, Any]:
         data: List[Dict[str, Any]] = self.get_all_matches()
         accepted_ids: List[str] = [item['match_id'] for item in data]
@@ -108,42 +113,45 @@ class ResultAPIClient:
             away_team_name=record['awayParticipant']['participantName'],
             away_team_logo=record['awayParticipant']['logo'],
             away_team_score=record['awayParticipant']['score'],
+            form_fields=ResultAPIClient.get_form_fields(record)
         )
+
+    @staticmethod
+    def get_form_fields(record: Dict[str, Any]) -> List[str]:
+        match_id: str = record['matchID']
+        return [f"{match_id}_{field}" for field in ['h', 'a', 'w']]
 
     # def get_live_matches(self) -> Dict[str, Any]:
     #     df: pd.DataFrame = self.get_all_matches_df()
     #     live_df = df.loc[df.match_status == '0']
     #     return live_df.to_dict('index')
 
-    def get_next_matches(self) -> List[str]:
-        df: pd.DataFrame = self.get_all_matches_df()
-        print(df["date"].argmin())
-        return df.iloc[df["date"].argmax()].to_dict()
+    # def get_next_matches(self) -> List[str]:
+    #     df: pd.DataFrame = self.get_all_matches_df()
+    #     print(df["date"].argmin())
+    #     return df.iloc[df["date"].argmax()].to_dict()
 
     def get_prev_matches(self, n: int = None) -> List[str]:
         pass
 
-    def get_stage_matches(self, stage_type: StageType) -> List[Dict[str, Any]]:
+    def fetch_stage_matches(self, stage_type: StageType) -> List[Dict[str, Any]]:
         return [{
             'stage': item['stage'],
             'index': item['index'],
             'match_id': item['match_id'],
             'home': item['home_team_name'],
             'away': item['away_team_name']
-        } for item in self.get_all_matches() if item['stage'] in stage_type.value]
+        } for item in self.get_all_matches() if item['stage'] in stage_type.round_names]
 
     def get_all_data(self) -> Dict[str, Any]:
         url = f'{self.api_prefix}/matches/?season_id={self.season}&apikey={self.api_key}'
         return self.format_request(url)
 
 
-# if __name__ == '__main__':
-#     results = ResultAPIClient(ENV)
-#     data = results.get_all_matches()
-#
-#     from pprint import pprint
-#
-#     pprint(results.get_stage_matches(StageType.GROUP))
-#     pprint(data['calendar']['matchdays'])
-#     for item in data['calendar']['matchdays']:
-#         stage = item['stage']
+if __name__ == '__main__':
+    results = ResultAPIClient(ENV)
+    # data = results.get_stage_matches(StageType.KNOCKOUT_2)
+
+    from pprint import pprint
+
+
