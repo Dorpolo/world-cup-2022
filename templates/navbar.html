@@ -1,5 +1,27 @@
 {% load static %}
 
-<img src="{% static 'images/world-cup-2022-logo.png' %}">
-<a href="{% url 'final-prediction' %}">Add Prediction</a>
-<hr>
+  <!-- Header Section -->
+  <header class="header">
+    <div class="container container--narrow">
+      <a href="{% url 'final-prediction' %}" class="header__logo">
+        <img src="{% static 'images/default.png' %}" alt="World-Cup Logo" />
+      </a>
+      <nav class="header__nav">
+        <input type="checkbox" id="responsive-menu" />
+        <label for="responsive-menu" class="toggle-menu">
+          <span>Menu</span>
+          <div class="toggle-menu__lines"></div>
+        </label>
+        <ul class="header__menu">
+            <li class="header__menuItem"><a href="{% url 'league-zone' %}">My Leagues</a></li>
+            <li class="header__menuItem"><a href="{% url 'create-league' %}" class="btn btn--sub">Add Predictions</a></li>
+          <li class="header__menuItem"><a href="{% url 'create-league' %}" class="btn btn--sub">Add New League</a></li>
+          <li class="header__menuItem"><a href="{% url 'league-membership' %}" class="btn btn--sub">Join a League</a></li>
+          <li class="header__menuItem"><a href="login.html" class="btn btn--sub">Login/Sign Up</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+{#<img src="{% static 'images/world-cup-2022-logo.png' %}"  width="200"  height="240">#}
+{#<a href="{% url 'final-prediction' %}">Add Prediction</a>#}
+{#<hr>#}
