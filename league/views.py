@@ -20,14 +20,21 @@ class LeagueDataClient:
 
 def my_leagues(request) -> HttpResponse:
     leagues = League.objects.all()
-    league_members = LeagueMember.objects.all()
+    league_meta_data = [
+        {
+            'members': LeagueMember.objects.filter(league__id=k.id),
+            'owner': k.owner,
+            'name': k.name,
+            'logo': k.logo,
+        } for k in leagues
+    ]
 
     return render(
         request=request,
         template_name='league/league_zone.html',
         context={
             'leagues': leagues,
-            'league_members': league_members,
+            'league_meta_data': league_meta_data,
         }
     )
 
@@ -45,7 +52,7 @@ class LeagueBuilder:
             form = LeagueForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
-                return redirect('league-zone/')
+                return redirect('/league-zone/')
         return render(
             request=request,
             template_name=self.template_name,

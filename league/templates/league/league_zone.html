@@ -27,29 +27,22 @@
       <div class="container">
         <div class="grid grid--three">
 
-        {% for league in leagues %}
+        {% for league in league_meta_data %}
             <div class="column">
                 <div class="card project">
               <a href="single-project.html" class="project">
-                <img class="project__thumbnail" src="images/project-a.png" alt="project thumbnail" />
+                <img class="project__thumbnail" src="{{ league.logo.url }}" />
                 <div class="card__body">
                   <h3 class="project__title">{{ league.name }}</h3>
                   <p><a class="project__author" href="profile.html">League Owner - {{ league.owner }}</a></p>
                   <p class="project--rating">
-                    <span style="font-weight: bold;">98%</span> Postitive
-                    Feedback (72 Votes)
+                    <span style="font-weight: bold;">{{ league.members|length }}</span> Members
                   </p>
                   <div class="project__tags">
-                      {% for member in league_members%}
+                      {% for member in league.members%}
                         <span class="tag tag--pill tag--main">
                           <small>{{ member.nick_name }}</small>
                         </span>
-                      {% endfor %}
-                  </div>
-
-                      <div class="project__tags">
-                      {% for member in league_members%}
-                            <img src="{{ member.profile_pic.url }}" class="avatar--sm">
                       {% endfor %}
                   </div>
 
