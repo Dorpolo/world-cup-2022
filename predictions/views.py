@@ -27,7 +27,8 @@ class CRUDPrediction:
         self.data = ResultAPIClient(ENV).get_stage_matches(stage_type)
         self.context = {
             'data': self.data,
-            'form_metadata': stage_type.round_names
+            'form_metadata': stage_type.round_names,
+            'form_label': get_form(stage_type)().label
         }
         self.stage_type = stage_type
         self.object = STAGE_MAPPER[stage_type]

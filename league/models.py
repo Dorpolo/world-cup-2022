@@ -10,7 +10,7 @@ class League(models.Model):
     WINNER_CHOICES = ((1, 1), (2, 2), (3, 3),)
     TOP_CHOICES = ((1, 1), (2, 2), (3, 3),)
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    id = models.AutoField(auto_created=True, primary_key=True, unique=True)
     name = models.CharField('League Name', max_length=20, unique=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     logo = models.ImageField('Logo', null=True, blank=True, default='default.png')
@@ -27,3 +27,13 @@ class League(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class LeagueMember(models.Model):
+    id = models.AutoField(auto_created=True, primary_key=True, unique=True)
+    nick_name = models.CharField('Nick Name', max_length=20, unique=True)
+    profile_pic = models.ImageField('Profile Pic', null=True, blank=True, default='default.png')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
