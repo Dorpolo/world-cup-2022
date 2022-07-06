@@ -3,28 +3,72 @@
 {% block content %}
 
 <h1>{{ form_label }} Prediction Form</h1>
-    <hr>
-    <p>Please fill out the form below to predict the {{ form_metadata }} matches.</p>
-    <form action='' method="POST">
-        {% csrf_token %}
-        {% for match in data %}
-              <a>
-                 <img alt="Qries" src="{{ match.home_team_logo }}"  width=30" height="30">
-                 <img alt="Qries" src="{{ match.away_team_logo }}"  width=30" height="30">
-              </a>
-                {% now "Y-m-d" as todays_date %}
-                {% if todays_date > match.match_date %}
-                {{ match.match_time  }}
-                {% for field in form %}
-                    {% if field.name in match.form_fields or field.name == 'user'%}
-                        {{ field.label }}
-                        {{ field }}
-                    {% endif %}
-                {% endfor %}
-                <hr>
-            {% endif %}
-        {% endfor %}
-        <input type="submit">
-    </form>
+    <main class="formPage my-xl">
+        <div class="content-box">
+            <div class="formWrapper">
+                <a class="backButton" href="#"><i class="im im-angle-left"></i></a>
+                <br>
+                <form class="form" method="POST" enctype="multipart/form-data">
+                    <!-- Input:Text -->
+                    {% csrf_token %}
+                    <div>
+                         {% for match in data %}
+                              <span class="tag tag--pill tag--main">
+                                  <img alt="Qries" src="{{ match.home_team_logo }}"  width=30" height="30">
+                                 <img alt="Qries" src="{{ match.away_team_logo }}"  width=30" height="30">
+                              </span>
+                               <span class="tag tag--pill tag--main">
+                                 {{ match.match_date  }}
+                              </span>
+                               <span class="tag tag--pill tag--main">
+                                 {{ match.match_time  }}
+                              </span>
+                             <span class="tag tag--pill tag--main">
+                                 {{ match.match_id  }}
+                              </span>
+                                {% now "Y-m-d" as todays_date %}
+                                {% if todays_date > match.match_date %}
+                                {% for field in form %}
+                                    {% if field.name in match.form_fields%}
+                                        <div class="form__field">
+                                        <label for="formInput">{{ field.label }}</label>
+                                            {{ field }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <hr>
+                            {% endif %}
+                         <br>
+                        {% endfor %}
+                    </div>
 
+                    <input class="btn btn--sub btn--lg  my-md" type="submit" value="Submit" />
+                </form>
+            </div>
+        </div>
+    </main>
 {% endblock content %}
+
+
+
+{#    <form action='' method="POST">#}
+{#        {% csrf_token %}#}
+{#        {% for match in data %}#}
+{#              <a>#}
+{#                 <img alt="Qries" src="{{ match.home_team_logo }}"  width=30" height="30">#}
+{#                 <img alt="Qries" src="{{ match.away_team_logo }}"  width=30" height="30">#}
+{#              </a>#}
+{#                {% now "Y-m-d" as todays_date %}#}
+{#                {% if todays_date > match.match_date %}#}
+{#                {{ match.match_time  }}#}
+{#                {% for field in form %}#}
+{#                    {% if field.name in match.form_fields or field.name == 'user'%}#}
+{#                        {{ field.label }}#}
+{#                        {{ field }}#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{#                <hr>#}
+{#            {% endif %}#}
+{#        {% endfor %}#}
+{#        <input type="submit">#}
+{#    </form>#}

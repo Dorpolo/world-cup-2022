@@ -52,7 +52,7 @@ class MatchMetaData:
 class ResultAPIClient:
     def __init__(
         self,
-        env: EnvType = EnvType.PROD
+        env: EnvType = ENV
     ):
         self.api_key = os.getenv('API_KEY')
         self.season = env.value
@@ -91,11 +91,6 @@ class ResultAPIClient:
         assert match_id in accepted_ids, "The provided match id is not exists"
         return [item for item in data if item['match_id'] == match_id][0]
 
-    # def get_all_matches_df(self) -> pd.DataFrame:
-    #     df = pd.DataFrame(self.get_all_matches())
-    #     df['date'] = pd.to_datetime(df['match_date'])
-    #     return df
-
     @staticmethod
     def get_valid_record(record: Dict[str, Any]) -> MatchMetaData:
         return MatchMetaData(
@@ -121,16 +116,6 @@ class ResultAPIClient:
         match_id: str = record['matchID']
         return [f"{match_id}_{field}" for field in ['h', 'a', 'w']]
 
-    # def get_live_matches(self) -> Dict[str, Any]:
-    #     df: pd.DataFrame = self.get_all_matches_df()
-    #     live_df = df.loc[df.match_status == '0']
-    #     return live_df.to_dict('index')
-
-    # def get_next_matches(self) -> List[str]:
-    #     df: pd.DataFrame = self.get_all_matches_df()
-    #     print(df["date"].argmin())
-    #     return df.iloc[df["date"].argmax()].to_dict()
-
     def get_prev_matches(self, n: int = None) -> List[str]:
         pass
 
@@ -149,9 +134,18 @@ class ResultAPIClient:
 
 
 if __name__ == '__main__':
-    results = ResultAPIClient(ENV)
-    # data = results.get_stage_matches(StageType.KNOCKOUT_2)
+    def get_match_related_fields(match_id: str) -> List[str]:
+        return [f"{match_id}_h", f"{match_id}_a", f"{match_id}_w"]
 
-    from pprint import pprint
+
+    def get_stage_field(stage_type: StageType) -> List[str]:
+        stage_matches: List[Dict[str, str]] = ResultAPIClient().get_stage_matches(stage_type)
+        print(stage_matches)
+        match_ids: List[str] = [match['match_id'] for match in stage_matches]
+        match_fields: List[List[str]] = [get_match_related_fields(match_id) for match_id in match_ids]
+        return [x for xs in match_fields for x in xs]
+
+
+    print(ResultAPIClient().get_stage_matches(StageType.GROUP))
 
 

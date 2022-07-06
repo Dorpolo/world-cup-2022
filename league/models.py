@@ -4,6 +4,8 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
+from users.models import Profile
+
 
 class League(models.Model):
     SCORE_CHOICES = ((3, 3), (4, 4), (5, 5),)
@@ -12,7 +14,7 @@ class League(models.Model):
 
     id = models.AutoField(auto_created=True, primary_key=True, unique=True)
     name = models.CharField('League Name', max_length=20, unique=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
     logo = models.ImageField('Logo', null=True, blank=True, default='default.png')
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -33,7 +35,7 @@ class LeagueMember(models.Model):
     id = models.AutoField(auto_created=True, primary_key=True, unique=True)
     nick_name = models.CharField('Nick Name', max_length=20, unique=True)
     profile_pic = models.ImageField('Profile Pic', null=True, blank=True, default='default.png')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     league = models.ForeignKey(League, on_delete=models.CASCADE)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)

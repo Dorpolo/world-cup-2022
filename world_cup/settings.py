@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'league.apps.LeagueConfig',
     'predictions.apps.PredictionsConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
