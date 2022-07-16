@@ -112,9 +112,17 @@ class ResultAPIClient:
         )
 
     @staticmethod
-    def get_form_fields(record: Dict[str, Any]) -> List[str]:
+    def get_form_fields(record: Dict[str, Any]) -> Dict[str, Any]:
         match_id: str = record['matchID']
-        return [f"{match_id}_{field}" for field in ['h', 'a', 'w']]
+        return {
+            f"{match_id}_{field}": 'result' if field != 'w' else {
+            'winner': {
+                'home': record['homeParticipant']['participantName'],
+                'away': record['awayParticipant']['participantName'],
+                'draw': 'draw'
+            }}
+            for field in ['h', 'a', 'w']
+         }
 
     def get_prev_matches(self, n: int = None) -> List[str]:
         pass
@@ -147,5 +155,3 @@ if __name__ == '__main__':
 
 
     print(ResultAPIClient().get_stage_matches(StageType.GROUP))
-
-

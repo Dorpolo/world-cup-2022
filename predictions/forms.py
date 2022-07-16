@@ -32,8 +32,8 @@ class GroupStagePredictionForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(GroupStagePredictionForm, self).__init__(*args, **kwargs)
 
-        for name, field in self.fields.items():
-            field.widget.attrs.update({'class': 'input'})
+        # for name, field in self.fields.items():
+        #     field.widget.attrs.update({'class': 'input'})
 
 
 class Top16PredictionForm(ModelForm):
@@ -106,4 +106,3 @@ class Top2PredictionForm(ModelForm):
 
         for name, field in self.fields.items():
             field.widget.attrs.update({'class': 'input'})
-

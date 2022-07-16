@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -37,10 +38,15 @@ class CRUDPrediction:
         form = get_form(self.stage_type)
 
         if request.method == 'POST':
-            form = get_form(self.stage_type)(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('/')
+            if user.is_authenticated:
+                user = User.objects.get(pk=request.user.id)
+                profile = Profile.objects.get(user=user)
+                form = get_form(self.stage_type)(request.POST)
+                if form.is_valid():
+                    form.save()
+                    return redirect('/')
+                else:
+                    print(form)
         return render(
             request=request,
             template_name='predictions/create_prediction.html',
@@ -60,4 +66,3 @@ class CRUDPrediction:
             template_name='predictions/create_prediction.html',
             context=dict(**self.context, form=form)
         )
-

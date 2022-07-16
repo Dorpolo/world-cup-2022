@@ -1,3 +1,4 @@
+
 :root {
   --color-sub: #2d2d39;
 }
@@ -7,7 +8,7 @@
 }
 
 .card {
-  border: 2px solid var(--color-light);
+  border: 8px solid var(--color-light);
 }
 
 img {
@@ -66,7 +67,7 @@ img {
 }
 
 .header__nav input[type='checkbox']:checked ~ .header__menu {
-  opacity: 1;
+  opacity: 2;
   pointer-events: all;
 }
 
@@ -659,7 +660,7 @@ img {
   left: 0;
   bottom: 0;
   right: 0;
-  background: url(../images/pattern.jpg);
+  background: url(../images/final_1998.jpeg);
 }
 
 .auth > .card {

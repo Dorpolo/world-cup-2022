@@ -13,7 +13,6 @@ DEBUG = int(os.environ.get('DEBUG', default=1))
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'world-cup-22.herokuapp.com']
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -24,6 +23,7 @@ INSTALLED_APPS = [
     'league.apps.LeagueConfig',
     'predictions.apps.PredictionsConfig',
     'users.apps.UsersConfig',
+    'world_cup'
 ]
 
 MIDDLEWARE = [
@@ -52,6 +52,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'world_cup.custom_context_processor.dz_static',
             ],
         },
     },
@@ -143,7 +144,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/images/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / 'static',
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')

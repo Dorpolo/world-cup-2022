@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
@@ -46,19 +47,21 @@ class LeagueBuilder:
         }
         self.template_name = 'league/league_builder.html'
 
+    # @login_required(login_url="login")
     def create(self, request) -> HttpResponse:
         form = LeagueForm()
         if request.method == 'POST':
             form = LeagueForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
-                return redirect('/league-zone/')
+                return redirect('leagues/fan-zone/')
         return render(
             request=request,
             template_name=self.template_name,
             context=dict(**self.context, form=form)
         )
 
+    #@login_required(login_url="login")
     def update(self, request, pk) -> HttpResponse:
         prediction = League.objects.get(id=pk)
         form = LeagueForm(instance=prediction)
@@ -83,19 +86,21 @@ class LeagueMembership:
         }
         self.template_name = 'league/league_membership.html'
 
+    # @login_required(login_url="login")
     def create(self, request) -> HttpResponse:
         form = LeagueMemberForm()
         if request.method == 'POST':
             form = LeagueMemberForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
-                return redirect('/league-zone')
+                return redirect('/leagues/fan-zone/')
         return render(
             request=request,
             template_name=self.template_name,
             context=dict(**self.context, form=form)
         )
 
+    # @login_required(login_url="login")
     def update(self, request, pk) -> HttpResponse:
         prediction = LeagueMember.objects.get(id=pk)
         form = LeagueMemberForm(instance=prediction)
@@ -103,7 +108,7 @@ class LeagueMembership:
             form = LeagueMemberForm(request.POST, request.FILES, instance=prediction)
             if form.is_valid():
                 form.save()
-                return redirect('/')
+                return redirect('/fan-zone/')
         return render(
             request=request,
             template_name=self.template_name,

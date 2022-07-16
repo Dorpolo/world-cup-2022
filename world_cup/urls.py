@@ -5,10 +5,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 import users.views
+import world_cup.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', users.views.profiles, name='profiles'),
+    path('', world_cup.views.view_nav_bar, name='navbar'),
     path('predict/', include('predictions.urls')),
     path('leagues/', include('league.urls')),
     path('users/', include('users.urls')),
