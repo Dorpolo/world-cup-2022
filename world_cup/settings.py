@@ -23,8 +23,14 @@ INSTALLED_APPS = [
     'league.apps.LeagueConfig',
     'predictions.apps.PredictionsConfig',
     'users.apps.UsersConfig',
-    'world_cup'
+    'world_cup',
+    'tailwind',
+    'theme',
+    'django_browser_reload',
+    'crispy_forms'
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -35,6 +41,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
+
 ]
 
 ROOT_URLCONF = 'world_cup.urls'
@@ -60,7 +68,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'world_cup.wsgi.application'
 
-
+TAILWIND_APP_NAME = 'theme'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -156,3 +164,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]

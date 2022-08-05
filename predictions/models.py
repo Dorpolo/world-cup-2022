@@ -5,6 +5,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
+from django.urls import reverse
+
 from common.api.results_api import ResultAPIClient, StageType
 from common.configs import ENV
 
@@ -39,11 +41,13 @@ class BasePrediction(models.Model):
     id = models.AutoField(primary_key=True, editable=False, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def get_absolute_url(self):
+        return reverse('detail', kwargs={'pk': self.id})
 
 
 # Group Stage Model
 class GroupStagePrediction(BasePrediction):
-    pass
+   pass
 
 
 group_stage_data: List[Dict[str, Any]] = results.fetch_stage_matches(StageType.GROUP)
@@ -67,7 +71,7 @@ for record in top_16_data:
     Top16Prediction.add_to_class(f"{record['match_id']}_w", models.CharField('Winner', choices=winner_choices, max_length=50))
 
 
-# 1/8 Final Model
+# 1/4 Final Model
 class Top8Prediction(BasePrediction):
     pass
 

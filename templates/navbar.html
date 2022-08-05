@@ -20,7 +20,7 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'final-prediction' %}" >
+        <a class="navbar-brand" href="{% url 'group-stage-prediction' %}" >
           <img src="{% static 'images/avatar/1.png' %}"
                alt="World-Cup Logo"/>
         </a>
@@ -52,19 +52,19 @@
 
                             <li><hr class="dropdown-divider"></li>
 
-                            <li><a class="dropdown-item" href={% url 'final-prediction' %} >Top 16</a></li>
+                            <li><a class="dropdown-item" href={% url 'group-stage-prediction' %} >Top 16</a></li>
 
                               <li><hr class="dropdown-divider"></li>
 
-                           <li><a class="dropdown-item" href={% url 'final-prediction' %}>Quarter Finals</a></li>
+                           <li><a class="dropdown-item" href={% url 'group-stage-prediction' %}>Quarter Finals</a></li>
 
                               <li><hr class="dropdown-divider"></li>
 
-                            <li><a class="dropdown-item" href={% url 'final-prediction' %}>Semi Finals</a></li>
+                            <li><a class="dropdown-item" href={% url 'group-stage-prediction' %}>Semi Finals</a></li>
 
                               <li><hr class="dropdown-divider"></li>
 
-                            <li><a class="dropdown-item" href={% url 'final-prediction' %} >Final</a></li>
+                            <li><a class="dropdown-item" href={% url 'group-stage-prediction' %} >Final</a></li>
                         </ul>
                     </li>
 
@@ -74,7 +74,14 @@
                      <li class="nav-item">
                        <a class="nav-link" href={% url 'logout' %}>Logout</a>
                     </li>
-                {% endif %}
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href={% url 'login' %}>Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href={% url 'register' %}>Register</a>
+                    </li>
+                    {% endif %}
             </li>
           </div>
         </div>
